@@ -12,6 +12,10 @@
 #include <type_traits>
 #include <vector>
 
+namespace figcone {
+class Config;
+}
+
 namespace figcone::detail {
 
 enum class NodeListType {
@@ -63,19 +67,19 @@ public:
                     auto cfg = Cfg{cfgReader_};
                     if (cfgReader_) {
                         if (type_ == NodeListType::Copy && i > 0)
-                            ConfigReaderAccess{cfgReader_}.load<Cfg>(nodeList.asList().at(0));
-                        ConfigReaderAccess{cfgReader_}.load<Cfg>(treeNode);
+                            ConfigReaderAccess{cfgReader_}.template load<Cfg>(nodeList.asList().at(0));
+                        ConfigReaderAccess{cfgReader_}.template load<Cfg>(treeNode);
                     }
                     maybeOptValue(nodeList_).emplace_back(std::move(cfg));
                 }
                 else {
                     auto cfg = Cfg{};
                     if (cfgReader_) {
-                        ConfigReaderAccess{cfgReader_}.loadStructure<Cfg>(cfg);
+                        ConfigReaderAccess{cfgReader_}.template loadStructure<Cfg>(cfg);
 
                         if (type_ == NodeListType::Copy && i > 0)
-                            ConfigReaderAccess{cfgReader_}.load<Cfg>(nodeList.asList().at(0));
-                        ConfigReaderAccess{cfgReader_}.load<Cfg>(treeNode);
+                            ConfigReaderAccess{cfgReader_}.template load<Cfg>(nodeList.asList().at(0));
+                        ConfigReaderAccess{cfgReader_}.template load<Cfg>(treeNode);
                     }
                     maybeOptValue(nodeList_).emplace_back(std::move(cfg));
                 }
