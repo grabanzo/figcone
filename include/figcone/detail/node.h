@@ -45,11 +45,11 @@ private:
             cfg_.emplace();
 
         if constexpr (!std::is_base_of_v<figcone::Config, eel::remove_optional_t<TCfg>>) {
-            ConfigReaderAccess{cfgReader_}.loadStructure<eel::remove_optional_t<TCfg>>(maybeOptValue(cfg_));
+            ConfigReaderAccess{cfgReader_}.template loadStructure<eel::remove_optional_t<TCfg>>(maybeOptValue(cfg_));
         }
 
         if (cfgReader_)
-            ConfigReaderAccess{cfgReader_}.load<TCfg>(node);
+            ConfigReaderAccess{cfgReader_}.template load<TCfg>(node);
     }
 
     bool hasValue() const override
